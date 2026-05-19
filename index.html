@@ -46,8 +46,6 @@ function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 var _pid = 1;
 var _bid = 1;
-
-// ── Production build ─────────────────────────────────────────────────────────
 var TEST_PLAYERS = [];
 var TEST_WR = {
   "8-Ball": [],
@@ -2253,23 +2251,25 @@ function App() {
   // Restore from storage on mount
   (0, React.useEffect)(function () {
     loadState().then(function (s) {
-      if (!s) return;
-      if (s.players) setPlayers(s.players);
-      if (s.waitingRooms) setWaitingRooms(s.waitingRooms);
-      if (s.boards) setBoards(s.boards);
-      if (s.qualified) setQualified(s.qualified);
-      if (s.tappedOut) setTappedOut(s.tappedOut);
-      if (s.eventStarted) setEventStarted(s.eventStarted);
-      if (s.tables) setTables(s.tables);
-      if (s.leagueName) setLeagueName(s.leagueName);
+      if (s) {
+        if (s.players) setPlayers(s.players);
+        if (s.waitingRooms) setWaitingRooms(s.waitingRooms);
+        if (s.boards) setBoards(s.boards);
+        if (s.qualified) setQualified(s.qualified);
+        if (s.tappedOut) setTappedOut(s.tappedOut);
+        if (s.eventStarted) setEventStarted(s.eventStarted);
+        if (s.tables) setTables(s.tables);
+        if (s.leagueName) setLeagueName(s.leagueName);
+        setNotification({
+          msg: "Event restored from last session!",
+          type: "success"
+        });
+        setTimeout(function () {
+          return setNotification(null);
+        }, 5000);
+      }
+      // Always mark restored so auto-save fires even with no prior saved data
       setRestored(true);
-      setNotification({
-        msg: "Event restored from last session!",
-        type: "success"
-      });
-      setTimeout(function () {
-        return setNotification(null);
-      }, 5000);
     });
   }, []);
 
@@ -2338,6 +2338,7 @@ function App() {
       var p = {
         id: _pid++,
         name: name,
+        apaNumber: (f.apaNumber || "").trim(),
         gameType: f.gameType,
         sl8: f.gameType === "9-Ball" ? null : f.sl8 || 5,
         sl9: f.gameType === "8-Ball" ? null : f.sl9 || 5
