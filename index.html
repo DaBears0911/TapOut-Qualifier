@@ -47,7 +47,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
 var _pid = 1;
 var _bid = 1;
 
-// ── Production build — no test data ──────────────────────────────────────────
+// ── Production build ─────────────────────────────────────────────────────────
 var TEST_PLAYERS = [];
 var TEST_WR = {
   "8-Ball": [],
@@ -1152,14 +1152,86 @@ function ManualBuildModal(_ref10) {
   }, "Cancel")));
 }
 
-// ── Reset Board Button ─────────────────────────────────────────────────────────
-function ResetBoardBtn(_ref11) {
+// ── Delete Player Button ──────────────────────────────────────────────────────
+function DeleteBtn(_ref11) {
   var onConfirm = _ref11.onConfirm,
-    is8 = _ref11.is8;
+    disabled = _ref11.disabled;
   var _useState13 = (0, React.useState)(false),
     _useState14 = _slicedToArray(_useState13, 2),
     conf = _useState14[0],
     setConf = _useState14[1];
+  if (disabled) return null;
+  if (!conf) return /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setConf(true);
+    },
+    style: {
+      background: "none",
+      border: "1px solid #dc262655",
+      borderRadius: 6,
+      color: "#f87171",
+      cursor: "pointer",
+      fontSize: "0.75rem",
+      padding: "3px 10px",
+      fontWeight: 600
+    }
+  }, "Delete");
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 6,
+      background: "#1a0505",
+      border: "1px solid #dc262655",
+      borderRadius: 8,
+      padding: "3px 8px"
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: "0.7rem",
+      color: "#fca5a5",
+      fontWeight: 600
+    }
+  }, "Delete?"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      onConfirm();
+      setConf(false);
+    },
+    style: {
+      background: "#dc2626",
+      border: "none",
+      borderRadius: 5,
+      color: "#fff",
+      fontWeight: 800,
+      fontSize: "0.7rem",
+      padding: "2px 8px",
+      cursor: "pointer"
+    }
+  }, "Yes"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setConf(false);
+    },
+    style: {
+      background: "none",
+      border: "1px solid #475569",
+      borderRadius: 5,
+      color: "#94a3b8",
+      fontWeight: 700,
+      fontSize: "0.7rem",
+      padding: "2px 8px",
+      cursor: "pointer"
+    }
+  }, "No"));
+}
+
+// ── Reset Board Button ─────────────────────────────────────────────────────────
+function ResetBoardBtn(_ref12) {
+  var onConfirm = _ref12.onConfirm,
+    is8 = _ref12.is8;
+  var _useState15 = (0, React.useState)(false),
+    _useState16 = _slicedToArray(_useState15, 2),
+    conf = _useState16[0],
+    setConf = _useState16[1];
   if (!conf) return /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: 10
@@ -1229,26 +1301,26 @@ function ResetBoardBtn(_ref11) {
 }
 
 // ── Board Card ─────────────────────────────────────────────────────────────────
-function BoardCard(_ref12) {
-  var board = _ref12.board,
-    onResult = _ref12.onResult,
-    onSetApaNum = _ref12.onSetApaNum,
-    onEditMatch = _ref12.onEditMatch,
-    onStartMatch = _ref12.onStartMatch,
-    onResetBoard = _ref12.onResetBoard,
-    tick = _ref12.tick;
+function BoardCard(_ref13) {
+  var board = _ref13.board,
+    onResult = _ref13.onResult,
+    onSetApaNum = _ref13.onSetApaNum,
+    onEditMatch = _ref13.onEditMatch,
+    onStartMatch = _ref13.onStartMatch,
+    onResetBoard = _ref13.onResetBoard,
+    tick = _ref13.tick;
   var internalId = board.internalId,
     apaNum = board.apaNum,
     gameType = board.gameType,
     matches = board.matches;
-  var _useState15 = (0, React.useState)(false),
-    _useState16 = _slicedToArray(_useState15, 2),
-    editApa = _useState16[0],
-    setEditApa = _useState16[1];
-  var _useState17 = (0, React.useState)(apaNum || ""),
+  var _useState17 = (0, React.useState)(false),
     _useState18 = _slicedToArray(_useState17, 2),
-    apaInput = _useState18[0],
-    setApaInput = _useState18[1];
+    editApa = _useState18[0],
+    setEditApa = _useState18[1];
+  var _useState19 = (0, React.useState)(apaNum || ""),
+    _useState20 = _slicedToArray(_useState19, 2),
+    apaInput = _useState20[0],
+    setApaInput = _useState20[1];
   var is8 = gameType === "8-Ball";
   var m0 = matches[0],
     m1 = matches[1],
@@ -1260,10 +1332,10 @@ function BoardCard(_ref12) {
   function slFor(p) {
     return is8 ? p.sl8 : p.sl9;
   }
-  function MRow(_ref13) {
-    var match = _ref13.match,
-      idx = _ref13.idx,
-      label = _ref13.label;
+  function MRow(_ref14) {
+    var match = _ref14.match,
+      idx = _ref14.idx,
+      label = _ref14.label;
     if (!match) return null;
     var res = !!match.winner;
     var inProg = !!match.inProgress;
@@ -1620,13 +1692,13 @@ function BoardCard(_ref12) {
 }
 
 // ── Print View ─────────────────────────────────────────────────────────────────
-function PrintView(_ref14) {
-  var players = _ref14.players,
-    qualified = _ref14.qualified,
-    tappedOut = _ref14.tappedOut,
-    completedMatches = _ref14.completedMatches,
-    leagueName = _ref14.leagueName,
-    onClose = _ref14.onClose;
+function PrintView(_ref15) {
+  var players = _ref15.players,
+    qualified = _ref15.qualified,
+    tappedOut = _ref15.tappedOut,
+    completedMatches = _ref15.completedMatches,
+    leagueName = _ref15.leagueName,
+    onClose = _ref15.onClose;
   var q8 = qualified.filter(function (q) {
     return q.qualifiedGame === "8-Ball";
   });
@@ -1716,10 +1788,10 @@ function PrintView(_ref14) {
       borderColor: "#ccc",
       marginBottom: 24
     }
-  }), [["8-Ball", q8], ["9-Ball", q9]].map(function (_ref15) {
-    var _ref16 = _slicedToArray(_ref15, 2),
-      game = _ref16[0],
-      list = _ref16[1];
+  }), [["8-Ball", q8], ["9-Ball", q9]].map(function (_ref16) {
+    var _ref17 = _slicedToArray(_ref16, 2),
+      game = _ref17[0],
+      list = _ref17[1];
     return /*#__PURE__*/React.createElement("div", {
       key: game,
       style: {
@@ -1747,7 +1819,7 @@ function PrintView(_ref14) {
           padding: "6px 0",
           borderBottom: "1px solid #eee"
         }
-      }, /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("strong", null, "#" + (i + 1)), " ", p.name), /*#__PURE__*/React.createElement("span", {
+      }, /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("strong", null, "#" + (i + 1)), " ", p.name, p.apaNumber ? " (#" + p.apaNumber + ")" : ""), /*#__PURE__*/React.createElement("span", {
         style: {
           color: "#555"
         }
@@ -1870,6 +1942,12 @@ function PrintView(_ref14) {
       padding: "6px 8px",
       borderBottom: "2px solid #ccc"
     }
+  }, "APA #"), /*#__PURE__*/React.createElement("th", {
+    style: {
+      textAlign: "left",
+      padding: "6px 8px",
+      borderBottom: "2px solid #ccc"
+    }
   }, "Game"), /*#__PURE__*/React.createElement("th", {
     style: {
       textAlign: "left",
@@ -1958,20 +2036,20 @@ function PrintView(_ref14) {
 }
 
 // ── Game Tab ───────────────────────────────────────────────────────────────────
-function GameTab(_ref17) {
-  var game = _ref17.game,
-    boards = _ref17.boards,
-    waitingRooms = _ref17.waitingRooms,
-    qualified = _ref17.qualified,
-    onResult = _ref17.onResult,
-    onSetApaNum = _ref17.onSetApaNum,
-    onEditMatch = _ref17.onEditMatch,
-    onStartMatch = _ref17.onStartMatch,
-    onResetBoard = _ref17.onResetBoard,
-    onLaunch = _ref17.onLaunch,
-    allBoards = _ref17.allBoards,
-    totalTables = _ref17.totalTables,
-    tick = _ref17.tick;
+function GameTab(_ref18) {
+  var game = _ref18.game,
+    boards = _ref18.boards,
+    waitingRooms = _ref18.waitingRooms,
+    qualified = _ref18.qualified,
+    onResult = _ref18.onResult,
+    onSetApaNum = _ref18.onSetApaNum,
+    onEditMatch = _ref18.onEditMatch,
+    onStartMatch = _ref18.onStartMatch,
+    onResetBoard = _ref18.onResetBoard,
+    onLaunch = _ref18.onLaunch,
+    allBoards = _ref18.allBoards,
+    totalTables = _ref18.totalTables,
+    tick = _ref18.tick;
   var myWr = waitingRooms[game],
     bothWr = waitingRooms["Both"];
   var myQ = qualified.filter(function (q) {
@@ -2095,82 +2173,82 @@ function GameTab(_ref17) {
 
 // ── Main App ───────────────────────────────────────────────────────────────────
 function App() {
-  var _useState19 = (0, React.useState)(TEST_PLAYERS),
-    _useState20 = _slicedToArray(_useState19, 2),
-    players = _useState20[0],
-    setPlayers = _useState20[1];
-  var _useState21 = (0, React.useState)(TEST_WR),
+  var _useState21 = (0, React.useState)(TEST_PLAYERS),
     _useState22 = _slicedToArray(_useState21, 2),
-    waitingRooms = _useState22[0],
-    setWaitingRooms = _useState22[1];
-  var _useState23 = (0, React.useState)([]),
+    players = _useState22[0],
+    setPlayers = _useState22[1];
+  var _useState23 = (0, React.useState)(TEST_WR),
     _useState24 = _slicedToArray(_useState23, 2),
-    boards = _useState24[0],
-    setBoards = _useState24[1];
+    waitingRooms = _useState24[0],
+    setWaitingRooms = _useState24[1];
   var _useState25 = (0, React.useState)([]),
     _useState26 = _slicedToArray(_useState25, 2),
-    qualified = _useState26[0],
-    setQualified = _useState26[1];
-  var _useState27 = (0, React.useState)(new Set()),
+    boards = _useState26[0],
+    setBoards = _useState26[1];
+  var _useState27 = (0, React.useState)([]),
     _useState28 = _slicedToArray(_useState27, 2),
-    tappedOut = _useState28[0],
-    setTappedOut = _useState28[1];
-  var _useState29 = (0, React.useState)(false),
+    qualified = _useState28[0],
+    setQualified = _useState28[1];
+  var _useState29 = (0, React.useState)(new Set()),
     _useState30 = _slicedToArray(_useState29, 2),
-    eventStarted = _useState30[0],
-    setEventStarted = _useState30[1];
-  var _useState31 = (0, React.useState)(4),
+    tappedOut = _useState30[0],
+    setTappedOut = _useState30[1];
+  var _useState31 = (0, React.useState)(false),
     _useState32 = _slicedToArray(_useState31, 2),
-    tables = _useState32[0],
-    setTables = _useState32[1];
-  var _useState33 = (0, React.useState)("Central Oklahoma APA"),
+    eventStarted = _useState32[0],
+    setEventStarted = _useState32[1];
+  var _useState33 = (0, React.useState)(4),
     _useState34 = _slicedToArray(_useState33, 2),
-    leagueName = _useState34[0],
-    setLeagueName = _useState34[1];
-  var _useState35 = (0, React.useState)("dashboard"),
+    tables = _useState34[0],
+    setTables = _useState34[1];
+  var _useState35 = (0, React.useState)("Central Oklahoma APA"),
     _useState36 = _slicedToArray(_useState35, 2),
-    tab = _useState36[0],
-    setTab = _useState36[1];
-  var _useState37 = (0, React.useState)(null),
+    leagueName = _useState36[0],
+    setLeagueName = _useState36[1];
+  var _useState37 = (0, React.useState)("dashboard"),
     _useState38 = _slicedToArray(_useState37, 2),
-    modal = _useState38[0],
-    setModal = _useState38[1];
+    tab = _useState38[0],
+    setTab = _useState38[1];
   var _useState39 = (0, React.useState)(null),
     _useState40 = _slicedToArray(_useState39, 2),
-    editTarget = _useState40[0],
-    setEditTarget = _useState40[1];
+    modal = _useState40[0],
+    setModal = _useState40[1];
   var _useState41 = (0, React.useState)(null),
     _useState42 = _slicedToArray(_useState41, 2),
-    confirmAction = _useState42[0],
-    setConfirmAction = _useState42[1];
+    editTarget = _useState42[0],
+    setEditTarget = _useState42[1];
   var _useState43 = (0, React.useState)(null),
     _useState44 = _slicedToArray(_useState43, 2),
-    notification = _useState44[0],
-    setNotification = _useState44[1];
-  var _useState45 = (0, React.useState)(false),
+    confirmAction = _useState44[0],
+    setConfirmAction = _useState44[1];
+  var _useState45 = (0, React.useState)(null),
     _useState46 = _slicedToArray(_useState45, 2),
-    showPrint = _useState46[0],
-    setShowPrint = _useState46[1];
-  var _useState47 = (0, React.useState)(null),
+    notification = _useState46[0],
+    setNotification = _useState46[1];
+  var _useState47 = (0, React.useState)(false),
     _useState48 = _slicedToArray(_useState47, 2),
-    manualBuild = _useState48[0],
-    setManualBuild = _useState48[1];
+    showPrint = _useState48[0],
+    setShowPrint = _useState48[1];
   var _useState49 = (0, React.useState)(null),
     _useState50 = _slicedToArray(_useState49, 2),
-    slWarning = _useState50[0],
-    setSlWarning = _useState50[1];
+    manualBuild = _useState50[0],
+    setManualBuild = _useState50[1];
   var _useState51 = (0, React.useState)(null),
     _useState52 = _slicedToArray(_useState51, 2),
-    expandedWr = _useState52[0],
-    setExpandedWr = _useState52[1];
-  var _useState53 = (0, React.useState)(false),
+    slWarning = _useState52[0],
+    setSlWarning = _useState52[1];
+  var _useState53 = (0, React.useState)(null),
     _useState54 = _slicedToArray(_useState53, 2),
-    restored = _useState54[0],
-    setRestored = _useState54[1];
-  var _useState55 = (0, React.useState)(0),
+    expandedWr = _useState54[0],
+    setExpandedWr = _useState54[1];
+  var _useState55 = (0, React.useState)(false),
     _useState56 = _slicedToArray(_useState55, 2),
-    tick = _useState56[0],
-    setTick = _useState56[1];
+    restored = _useState56[0],
+    setRestored = _useState56[1];
+  var _useState57 = (0, React.useState)(0),
+    _useState58 = _slicedToArray(_useState57, 2),
+    tick = _useState58[0],
+    setTick = _useState58[1];
 
   // Restore from storage on mount
   (0, React.useEffect)(function () {
@@ -2356,6 +2434,33 @@ function App() {
       return new Set([].concat(_toConsumableArray(prev), [pid]));
     });
     notify(p.name + " tapped out.", "info");
+  }
+  function handleDeletePlayer(pid) {
+    var p = players.find(function (x) {
+      return x.id === pid;
+    });
+    if (!p) return;
+    // Remove from players list
+    setPlayers(function (ps) {
+      return ps.filter(function (x) {
+        return x.id !== pid;
+      });
+    });
+    // Remove from all waiting rooms
+    setWaitingRooms(function (wr) {
+      return {
+        "8-Ball": wr["8-Ball"].filter(function (x) {
+          return x.id !== pid;
+        }),
+        "9-Ball": wr["9-Ball"].filter(function (x) {
+          return x.id !== pid;
+        }),
+        "Both": wr["Both"].filter(function (x) {
+          return x.id !== pid;
+        })
+      };
+    });
+    notify(p.name + " removed.", "info");
   }
 
   // ── Event control ──────────────────────────────────────────────────────────
@@ -3576,7 +3681,16 @@ function App() {
         padding: "3px 10px",
         fontWeight: 600
       }
-    }, "Edit")));
+    }, "Edit"), /*#__PURE__*/React.createElement(DeleteBtn, {
+      onConfirm: function onConfirm() {
+        return handleDeletePlayer(p.id);
+      },
+      disabled: boards.some(function (b) {
+        return b.players.some(function (bp) {
+          return bp.id === p.id;
+        });
+      })
+    })));
   }))), tab === "settings" && /*#__PURE__*/React.createElement("div", {
     style: {
       maxWidth: 380
