@@ -533,7 +533,9 @@ function PlayerForm(_ref7) {
       apaNumber: "",
       gameType: "8-Ball",
       sl8: 5,
-      sl9: 5
+      sl9: 5,
+      paid: false,
+      amountPaid: ""
     }),
     _useState2 = _slicedToArray(_useState, 2),
     f = _useState2[0],
@@ -638,7 +640,80 @@ function PlayerForm(_ref7) {
     style: {
       display: "flex",
       gap: 10,
-      marginTop: 20
+      marginTop: 14
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1
+    }
+  }, /*#__PURE__*/React.createElement(Fld, {
+    label: "Entry Fee Paid?"
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 8
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setF(function (p) {
+        return _objectSpread(_objectSpread({}, p), {}, {
+          paid: true
+        });
+      });
+    },
+    style: {
+      flex: 1,
+      background: f.paid ? "#14532d" : "#0f172a",
+      border: "1px solid " + (f.paid ? "#16a34a" : "#334155"),
+      color: f.paid ? "#4ade80" : "#64748b",
+      borderRadius: 7,
+      padding: "7px 0",
+      fontWeight: 700,
+      fontSize: "0.8rem",
+      cursor: "pointer"
+    }
+  }, "Paid"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setF(function (p) {
+        return _objectSpread(_objectSpread({}, p), {}, {
+          paid: false,
+          amountPaid: ""
+        });
+      });
+    },
+    style: {
+      flex: 1,
+      background: !f.paid ? "#1a0505" : "#0f172a",
+      border: "1px solid " + (!f.paid ? "#dc2626" : "#334155"),
+      color: !f.paid ? "#f87171" : "#64748b",
+      borderRadius: 7,
+      padding: "7px 0",
+      fontWeight: 700,
+      fontSize: "0.8rem",
+      cursor: "pointer"
+    }
+  }, "Unpaid")))), f.paid && /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1
+    }
+  }, /*#__PURE__*/React.createElement(Fld, {
+    label: "Amount Paid ($)"
+  }, /*#__PURE__*/React.createElement("input", {
+    value: f.amountPaid || "",
+    onChange: function onChange(e) {
+      return setF(function (p) {
+        return _objectSpread(_objectSpread({}, p), {}, {
+          amountPaid: e.target.value
+        });
+      });
+    },
+    placeholder: "e.g. 20",
+    style: INP
+  })))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 10,
+      marginTop: 16
     }
   }, /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
@@ -1958,6 +2033,12 @@ function PrintView(_ref15) {
       padding: "6px 8px",
       borderBottom: "2px solid #ccc"
     }
+  }, "Paid"), /*#__PURE__*/React.createElement("th", {
+    style: {
+      textAlign: "left",
+      padding: "6px 8px",
+      borderBottom: "2px solid #ccc"
+    }
   }, "Result"))), /*#__PURE__*/React.createElement("tbody", null, _toConsumableArray(players).sort(function (a, b) {
     return a.name.localeCompare(b.name);
   }).map(function (p) {
@@ -1983,6 +2064,11 @@ function PrintView(_ref15) {
         padding: "5px 8px"
       }
     }, p.sl8 ? "8B:SL" + p.sl8 : "", p.sl8 && p.sl9 ? " / " : "", p.sl9 ? "9B:SL" + p.sl9 : ""), /*#__PURE__*/React.createElement("td", {
+      style: {
+        padding: "5px 8px",
+        color: p.paid ? "#16a34a" : "#dc2626"
+      }
+    }, p.paid ? "Paid" + (p.amountPaid ? " $" + p.amountPaid : "") : "Unpaid"), /*#__PURE__*/React.createElement("td", {
       style: {
         padding: "5px 8px",
         color: tappedOut.has(p.id) ? "#dc2626" : qualified.some(function (q) {
@@ -2339,6 +2425,8 @@ function App() {
         id: _pid++,
         name: name,
         apaNumber: (f.apaNumber || "").trim(),
+        paid: !!f.paid,
+        amountPaid: (f.amountPaid || "").trim(),
         gameType: f.gameType,
         sl8: f.gameType === "9-Ball" ? null : f.sl8 || 5,
         sl9: f.gameType === "8-Ball" ? null : f.sl9 || 5
@@ -2623,19 +2711,25 @@ function App() {
     });
   }
   function handleResult(boardId, matchIdx, winner) {
-    var loser = null,
-      boardGame = null,
-      isFinal = false,
-      qualifier = null;
+    // Find the board and compute results BEFORE touching state
+    var board = boards.find(function (b) {
+      return b.internalId === boardId;
+    });
+    if (!board) return;
+    var boardGame = board.gameType;
+    var match = board.matches[matchIdx];
+    if (!match) return;
+    var loser = match.p1.id === winner.id ? match.p2 : match.p1;
+    var dur = match.startedAt ? Math.floor((Date.now() - match.startedAt) / 1000) : null;
+    var isFinal = matchIdx === 2;
+
+    // Update boards state
     setBoards(function (prev) {
-      var updated = prev.map(function (board) {
-        if (board.internalId !== boardId) return board;
-        boardGame = board.gameType;
-        var matches = board.matches.map(function (m) {
+      var updated = prev.map(function (b) {
+        if (b.internalId !== boardId) return b;
+        var matches = b.matches.map(function (m) {
           return m ? _objectSpread({}, m) : null;
         });
-        loser = matches[matchIdx].p1.id === winner.id ? matches[matchIdx].p2 : matches[matchIdx].p1;
-        var dur = matches[matchIdx].startedAt ? Math.floor((Date.now() - matches[matchIdx].startedAt) / 1000) : null;
         matches[matchIdx] = _objectSpread(_objectSpread({}, matches[matchIdx]), {}, {
           winner: winner,
           loser: loser,
@@ -2659,36 +2753,33 @@ function App() {
             };
           }
         }
-        if (matchIdx === 2) {
-          isFinal = true;
-          qualifier = winner;
-        }
-        return _objectSpread(_objectSpread({}, board), {}, {
+        return _objectSpread(_objectSpread({}, b), {}, {
           matches: matches,
-          done: matchIdx === 2
+          done: isFinal
         });
       });
       updated = assignNextTable(updated, tables);
+      // Remove board immediately if finals done
+      if (isFinal) updated = updated.filter(function (b) {
+        return b.internalId !== boardId;
+      });
       return updated;
     });
-    if (loser) {
-      setWaitingRooms(function (wr) {
-        return _objectSpread(_objectSpread({}, wr), {}, _defineProperty({}, loser.gameType, [].concat(_toConsumableArray(wr[loser.gameType]), [loser])));
-      });
-      if (!isFinal) notify(loser.name + " to " + loser.gameType + " waiting room.", "info");
+
+    // Always move loser to waiting room immediately
+    setWaitingRooms(function (wr) {
+      return _objectSpread(_objectSpread({}, wr), {}, _defineProperty({}, loser.gameType, [].concat(_toConsumableArray(wr[loser.gameType]), [loser])));
+    });
+    if (!isFinal) {
+      notify(loser.name + " moved to waiting room.", "info");
     }
-    if (isFinal && qualifier && boardGame) {
+    if (isFinal) {
       setQualified(function (q) {
-        return [].concat(_toConsumableArray(q), [_objectSpread(_objectSpread({}, qualifier), {}, {
+        return [].concat(_toConsumableArray(q), [_objectSpread(_objectSpread({}, winner), {}, {
           qualifiedGame: boardGame
         })]);
       });
-      setBoards(function (prev) {
-        return prev.filter(function (b) {
-          return b.internalId !== boardId;
-        });
-      });
-      notify(qualifier.name + " qualifies for " + boardGame + " Regionals!", "success");
+      notify(winner.name + " qualifies for " + boardGame + " Regionals! " + loser.name + " to waiting room.", "success");
     }
   }
   function handleEditMatch(boardId, matchIdx) {
@@ -3634,7 +3725,27 @@ function App() {
         borderRadius: 5,
         padding: "1px 7px"
       }
-    }, "#", p.apaNumber), /*#__PURE__*/React.createElement("div", {
+    }, "#", p.apaNumber), p.paid ? /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: "0.72rem",
+        color: "#4ade80",
+        fontWeight: 700,
+        background: "#052e16",
+        border: "1px solid #16a34a55",
+        borderRadius: 5,
+        padding: "1px 7px"
+      }
+    }, "PAID" + (p.amountPaid ? " $" + p.amountPaid : "")) : /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: "0.72rem",
+        color: "#f87171",
+        fontWeight: 700,
+        background: "#1a0505",
+        border: "1px solid #dc262655",
+        borderRadius: 5,
+        padding: "1px 7px"
+      }
+    }, "UNPAID"), /*#__PURE__*/React.createElement("div", {
       style: {
         display: "flex",
         gap: 5,
