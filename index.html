@@ -2673,39 +2673,48 @@ function App() {
     notify(toLaunch.length + " boards launched!", "success");
   }
   function doReset() {
-    setEventStarted(false);
-    setBoards([]);
-    setQualified([]);
-    setTappedOut(new Set());
-    var r = {
-      "8-Ball": [],
-      "9-Ball": [],
-      "Both": []
-    };
-    players.forEach(function (p) {
-      r[p.gameType] = [].concat(_toConsumableArray(r[p.gameType]), [p]);
+    // Pause auto-save, clear storage, reset state, then re-enable auto-save
+    setRestored(false);
+    clearState().then(function () {
+      setEventStarted(false);
+      setBoards([]);
+      setQualified([]);
+      setTappedOut(new Set());
+      var r = {
+        "8-Ball": [],
+        "9-Ball": [],
+        "Both": []
+      };
+      players.forEach(function (p) {
+        r[p.gameType] = [].concat(_toConsumableArray(r[p.gameType]), [p]);
+      });
+      setWaitingRooms(r);
+      _bid = 1;
+      setConfirmAction(null);
+      setRestored(true); // re-enable auto-save with reset state
+      notify("Event reset — all players back in waiting rooms.", "info");
     });
-    setWaitingRooms(r);
-    _bid = 1;
-    setConfirmAction(null);
-    clearState();
-    notify("Event reset.", "info");
   }
   function doEnd() {
-    setEventStarted(false);
-    setBoards([]);
-    setWaitingRooms({
-      "8-Ball": [],
-      "9-Ball": [],
-      "Both": []
+    // Pause auto-save, clear storage, wipe everything
+    setRestored(false);
+    clearState().then(function () {
+      setEventStarted(false);
+      setBoards([]);
+      setWaitingRooms({
+        "8-Ball": [],
+        "9-Ball": [],
+        "Both": []
+      });
+      setQualified([]);
+      setPlayers([]);
+      setTappedOut(new Set());
+      _bid = 1;
+      _pid = 1;
+      setConfirmAction(null);
+      setRestored(true); // re-enable auto-save with blank state
+      notify("Event ended. Ready for next tournament.", "info");
     });
-    setQualified([]);
-    setPlayers([]);
-    setTappedOut(new Set());
-    _bid = 1;
-    _pid = 1;
-    setConfirmAction(null);
-    clearState();
   }
 
   // ── Board control ──────────────────────────────────────────────────────────
@@ -3989,8 +3998,23 @@ function App() {
     }
   }, "Permanently removes the saved event. Next load will start fresh."), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
-      clearState();
-      notify("Saved data cleared.", "info");
+      setRestored(false);
+      clearState().then(function () {
+        setEventStarted(false);
+        setBoards([]);
+        setWaitingRooms({
+          "8-Ball": [],
+          "9-Ball": [],
+          "Both": []
+        });
+        setQualified([]);
+        setPlayers([]);
+        setTappedOut(new Set());
+        _bid = 1;
+        _pid = 1;
+        setRestored(true);
+        notify("All data cleared. Ready for a fresh start.", "info");
+      });
     },
     style: _objectSpread(_objectSpread({}, ABT("#f87171")), {}, {
       fontSize: "0.78rem",
