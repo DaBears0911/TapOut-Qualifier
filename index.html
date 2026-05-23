@@ -1981,102 +1981,199 @@ function PrintView(_ref15) {
     style: {
       padding: "5px 8px"
     }
-  }, fmtTime(minM(timed).duration), " - ", minM(timed).p1, " vs ", minM(timed).p2))))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      marginBottom: 28
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: "1.2rem",
-      fontWeight: 700,
-      marginBottom: 12,
-      borderBottom: "2px solid #111",
-      paddingBottom: 4
-    }
-  }, "All Players (", players.length, ")"), /*#__PURE__*/React.createElement("table", {
-    style: {
-      width: "100%",
-      borderCollapse: "collapse",
-      fontSize: "0.9rem"
-    }
-  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", {
-    style: {
-      background: "#f5f5f5"
-    }
-  }, /*#__PURE__*/React.createElement("th", {
-    style: {
-      textAlign: "left",
-      padding: "6px 8px",
-      borderBottom: "2px solid #ccc"
-    }
-  }, "Name"), /*#__PURE__*/React.createElement("th", {
-    style: {
-      textAlign: "left",
-      padding: "6px 8px",
-      borderBottom: "2px solid #ccc"
-    }
-  }, "APA #"), /*#__PURE__*/React.createElement("th", {
-    style: {
-      textAlign: "left",
-      padding: "6px 8px",
-      borderBottom: "2px solid #ccc"
-    }
-  }, "Game"), /*#__PURE__*/React.createElement("th", {
-    style: {
-      textAlign: "left",
-      padding: "6px 8px",
-      borderBottom: "2px solid #ccc"
-    }
-  }, "SL"), /*#__PURE__*/React.createElement("th", {
-    style: {
-      textAlign: "left",
-      padding: "6px 8px",
-      borderBottom: "2px solid #ccc"
-    }
-  }, "Paid"), /*#__PURE__*/React.createElement("th", {
-    style: {
-      textAlign: "left",
-      padding: "6px 8px",
-      borderBottom: "2px solid #ccc"
-    }
-  }, "Result"))), /*#__PURE__*/React.createElement("tbody", null, _toConsumableArray(players).sort(function (a, b) {
-    return a.name.localeCompare(b.name);
-  }).map(function (p) {
-    return /*#__PURE__*/React.createElement("tr", {
-      key: p.id,
-      style: {
-        borderBottom: "1px solid #eee"
-      }
-    }, /*#__PURE__*/React.createElement("td", {
-      style: {
+  }, fmtTime(minM(timed).duration), " - ", minM(timed).p1, " vs ", minM(timed).p2))))), function () {
+    var sorted = _toConsumableArray(players).sort(function (a, b) {
+      return a.name.localeCompare(b.name);
+    });
+    var paidPlayers = sorted.filter(function (p) {
+      return p.paid;
+    });
+    var unpaidPlayers = sorted.filter(function (p) {
+      return !p.paid;
+    });
+    var totalCollected = paidPlayers.reduce(function (sum, p) {
+      var amt = parseFloat(p.amountPaid) || 0;
+      return sum + amt;
+    }, 0);
+    var th = function th(txt) {
+      return {
+        textAlign: "left",
+        padding: "6px 8px",
+        borderBottom: "2px solid #ccc",
+        background: "#f5f5f5",
+        fontSize: "0.85rem"
+      };
+    };
+    var td = function td() {
+      var extra = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      return _objectSpread({
         padding: "5px 8px"
-      }
-    }, p.name), /*#__PURE__*/React.createElement("td", {
+      }, extra);
+    };
+    return /*#__PURE__*/React.createElement("div", {
       style: {
-        padding: "5px 8px"
+        marginBottom: 28
       }
-    }, p.apaNumber || "-"), /*#__PURE__*/React.createElement("td", {
+    }, /*#__PURE__*/React.createElement("div", {
       style: {
-        padding: "5px 8px"
+        fontSize: "1.2rem",
+        fontWeight: 700,
+        marginBottom: 12,
+        borderBottom: "2px solid #111",
+        paddingBottom: 4
       }
-    }, p.gameType), /*#__PURE__*/React.createElement("td", {
+    }, "All Players (", players.length, ")"), /*#__PURE__*/React.createElement("table", {
       style: {
-        padding: "5px 8px"
+        width: "100%",
+        borderCollapse: "collapse",
+        fontSize: "0.88rem"
       }
-    }, p.sl8 ? "8B:SL" + p.sl8 : "", p.sl8 && p.sl9 ? " / " : "", p.sl9 ? "9B:SL" + p.sl9 : ""), /*#__PURE__*/React.createElement("td", {
+    }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
+      style: th()
+    }, "Name"), /*#__PURE__*/React.createElement("th", {
+      style: th()
+    }, "APA #"), /*#__PURE__*/React.createElement("th", {
+      style: th()
+    }, "Game"), /*#__PURE__*/React.createElement("th", {
+      style: th()
+    }, "SL"), /*#__PURE__*/React.createElement("th", {
+      style: th()
+    }, "Paid"), /*#__PURE__*/React.createElement("th", {
+      style: th()
+    }, "Result"))), /*#__PURE__*/React.createElement("tbody", null, sorted.map(function (p) {
+      var isQual = qualified.some(function (q) {
+        return q.id === p.id;
+      });
+      var isTapped = tappedOut.has(p.id);
+      return /*#__PURE__*/React.createElement("tr", {
+        key: p.id,
+        style: {
+          borderBottom: "1px solid #eee",
+          background: isQual ? "#f0fdf4" : "transparent"
+        }
+      }, /*#__PURE__*/React.createElement("td", {
+        style: td({
+          fontWeight: isQual ? 700 : 400
+        })
+      }, isQual ? "★ " : "", p.name), /*#__PURE__*/React.createElement("td", {
+        style: td({
+          color: "#555"
+        })
+      }, p.apaNumber || "-"), /*#__PURE__*/React.createElement("td", {
+        style: td()
+      }, p.gameType), /*#__PURE__*/React.createElement("td", {
+        style: td({
+          color: "#555"
+        })
+      }, p.sl8 ? "8B:SL" + p.sl8 : "", p.sl8 && p.sl9 ? " / " : "", p.sl9 ? "9B:SL" + p.sl9 : ""), /*#__PURE__*/React.createElement("td", {
+        style: td({
+          color: p.paid ? "#16a34a" : "#dc2626",
+          fontWeight: 600
+        })
+      }, p.paid ? "Paid" + (p.amountPaid ? " $" + p.amountPaid : "") : "Unpaid"), /*#__PURE__*/React.createElement("td", {
+        style: td({
+          color: isTapped ? "#dc2626" : isQual ? "#16a34a" : "#555",
+          fontWeight: isQual ? 700 : 400
+        })
+      }, getStatus(p)));
+    }))), /*#__PURE__*/React.createElement("div", {
       style: {
-        padding: "5px 8px",
-        color: p.paid ? "#16a34a" : "#dc2626"
+        marginTop: 20,
+        display: "flex",
+        gap: 24,
+        flexWrap: "wrap"
       }
-    }, p.paid ? "Paid" + (p.amountPaid ? " $" + p.amountPaid : "") : "Unpaid"), /*#__PURE__*/React.createElement("td", {
+    }, /*#__PURE__*/React.createElement("div", {
       style: {
-        padding: "5px 8px",
-        color: tappedOut.has(p.id) ? "#dc2626" : qualified.some(function (q) {
-          return q.id === p.id;
-        }) ? "#16a34a" : "#555"
+        background: "#f0fdf4",
+        border: "1px solid #86efac",
+        borderRadius: 8,
+        padding: "12px 20px",
+        minWidth: 160
       }
-    }, getStatus(p)));
-  })))), /*#__PURE__*/React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: "0.75rem",
+        color: "#166534",
+        fontWeight: 700,
+        textTransform: "uppercase",
+        letterSpacing: "0.08em",
+        marginBottom: 4
+      }
+    }, "Total Collected"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: "1.6rem",
+        fontWeight: 800,
+        color: "#15803d"
+      }
+    }, "$", totalCollected.toFixed(2)), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: "0.75rem",
+        color: "#166534",
+        marginTop: 2
+      }
+    }, paidPlayers.length, " of ", players.length, " players paid")), /*#__PURE__*/React.createElement("div", {
+      style: {
+        background: "#fef2f2",
+        border: "1px solid #fca5a5",
+        borderRadius: 8,
+        padding: "12px 20px",
+        minWidth: 160
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: "0.75rem",
+        color: "#991b1b",
+        fontWeight: 700,
+        textTransform: "uppercase",
+        letterSpacing: "0.08em",
+        marginBottom: 4
+      }
+    }, "Outstanding"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: "1.6rem",
+        fontWeight: 800,
+        color: "#dc2626"
+      }
+    }, unpaidPlayers.length), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: "0.75rem",
+        color: "#991b1b",
+        marginTop: 2
+      }
+    }, unpaidPlayers.length > 0 ? unpaidPlayers.map(function (p) {
+      return p.name;
+    }).join(", ") : "All paid!")), paidPlayers.length > 0 && /*#__PURE__*/React.createElement("div", {
+      style: {
+        background: "#eff6ff",
+        border: "1px solid #93c5fd",
+        borderRadius: 8,
+        padding: "12px 20px",
+        minWidth: 160
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: "0.75rem",
+        color: "#1e40af",
+        fontWeight: 700,
+        textTransform: "uppercase",
+        letterSpacing: "0.08em",
+        marginBottom: 4
+      }
+    }, "Qualified Players"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: "1.6rem",
+        fontWeight: 800,
+        color: "#1d4ed8"
+      }
+    }, qualified.length), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: "0.75rem",
+        color: "#1e40af",
+        marginTop: 2
+      }
+    }, "advancing to Regionals"))));
+  }(), /*#__PURE__*/React.createElement("div", {
     style: {
       textAlign: "center",
       color: "#aaa",
