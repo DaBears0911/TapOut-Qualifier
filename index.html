@@ -6,14 +6,14 @@
   <title>APA Tap Out Qualifier</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700;800&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: #040b14; color: #e2e8f0; font-family: 'DM Sans', sans-serif; min-height: 100vh; }
+    body { background: #040b14; color: #e2e8f0; font-family: 'DM Sans', sans-serif; min-height: 100vh; font-size: 16px; line-height: 1.5; }
     button { font-family: 'DM Sans', sans-serif; }
-    ::-webkit-scrollbar { width: 5px; }
-    ::-webkit-scrollbar-track { background: #040b14; }
-    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #060f1e; }
+    ::-webkit-scrollbar-thumb { background: #2d4a6e; border-radius: 3px; }
     @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
     @media print { .noprint { display: none !important; } }
   </style>
@@ -382,13 +382,13 @@ function SlBadge(_ref2) {
   var c = slColor(sl);
   return /*#__PURE__*/React.createElement("span", {
     style: {
-      background: c + "22",
+      background: c + "25",
       color: c,
-      border: "1px solid " + c + "55",
+      border: "1px solid " + c + "77",
       fontWeight: 800,
-      fontSize: "0.68rem",
-      borderRadius: 4,
-      padding: "1px 6px",
+      fontSize: "0.82rem",
+      borderRadius: 5,
+      padding: "2px 8px",
       whiteSpace: "nowrap"
     }
   }, game ? game + " " : "", "SL", sl);
@@ -397,18 +397,18 @@ function GameChip(_ref3) {
   var type = _ref3.type;
   var cfg = {
     "8-Ball": {
-      bg: "#3b076488",
-      color: "#e9d5ff",
+      bg: "#3b076499",
+      color: "#ede9fe",
       border: "#7c3aed"
     },
     "9-Ball": {
-      bg: "#78350f88",
-      color: "#fef08a",
+      bg: "#78350f99",
+      color: "#fef9c3",
       border: "#d97706"
     },
     "Both": {
-      bg: "#064e3b88",
-      color: "#6ee7b7",
+      bg: "#064e3b99",
+      color: "#d1fae5",
       border: "#059669"
     }
   }[type] || {};
@@ -417,10 +417,10 @@ function GameChip(_ref3) {
       background: cfg.bg,
       color: cfg.color,
       border: "1px solid " + cfg.border,
-      borderRadius: 5,
-      padding: "1px 8px",
-      fontSize: "0.68rem",
-      fontWeight: 700
+      borderRadius: 6,
+      padding: "3px 10px",
+      fontSize: "0.82rem",
+      fontWeight: 800
     }
   }, type);
 }
@@ -460,12 +460,14 @@ function SecLabel(_ref5) {
   return /*#__PURE__*/React.createElement("div", {
     style: {
       fontFamily: "'Barlow Condensed',sans-serif",
-      fontSize: "0.95rem",
+      fontSize: "1.15rem",
       fontWeight: 700,
-      color: "#64748b",
-      letterSpacing: "0.1em",
+      color: "#94a3b8",
+      letterSpacing: "0.08em",
       textTransform: "uppercase",
-      marginBottom: 12
+      marginBottom: 16,
+      borderLeft: "3px solid #3b82f6",
+      paddingLeft: 10
     }
   }, children);
 }
@@ -1438,11 +1440,11 @@ function BoardCard(_ref13) {
       }
     }, /*#__PURE__*/React.createElement("span", {
       style: {
-        fontSize: "0.63rem",
-        color: inProg ? accent : is8 ? "#a78bfa" : "#fbbf24",
-        fontWeight: 700,
+        fontSize: "0.82rem",
+        color: inProg ? accent : is8 ? "#c4b5fd" : "#fde68a",
+        fontWeight: 800,
         textTransform: "uppercase",
-        letterSpacing: "0.12em"
+        letterSpacing: "0.08em"
       }
     }, label), inProg && !res && /*#__PURE__*/React.createElement("span", {
       style: {
@@ -1532,9 +1534,9 @@ function BoardCard(_ref13) {
       sl: slFor(match.p1)
     }), /*#__PURE__*/React.createElement("span", {
       style: {
-        fontWeight: 600,
-        fontSize: "0.9rem",
-        color: "#e2e8f0"
+        fontWeight: 700,
+        fontSize: "1rem",
+        color: "#f1f5f9"
       }
     }, match.p1.name), match.p1.gameType === "Both" && /*#__PURE__*/React.createElement("span", {
       style: {
@@ -1557,9 +1559,9 @@ function BoardCard(_ref13) {
       sl: slFor(match.p2)
     }), /*#__PURE__*/React.createElement("span", {
       style: {
-        fontWeight: 600,
-        fontSize: "0.9rem",
-        color: "#e2e8f0"
+        fontWeight: 700,
+        fontSize: "1rem",
+        color: "#f1f5f9"
       }
     }, match.p2.name), match.p2.gameType === "Both" && /*#__PURE__*/React.createElement("span", {
       style: {
@@ -1630,11 +1632,11 @@ function BoardCard(_ref13) {
       }
     }, /*#__PURE__*/React.createElement("span", {
       style: {
-        fontSize: "0.75rem",
+        fontSize: "0.92rem",
         color: "#4ade80",
-        fontWeight: 700
+        fontWeight: 800
       }
-    }, "v " + match.winner.name + " wins"), /*#__PURE__*/React.createElement("button", {
+    }, "✓ " + match.winner.name + " wins"), /*#__PURE__*/React.createElement("button", {
       onClick: function onClick() {
         return onEditMatch(internalId, idx);
       },
@@ -1670,9 +1672,10 @@ function BoardCard(_ref13) {
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     style: {
       fontFamily: "'Barlow Condensed',sans-serif",
-      fontSize: "1.15rem",
-      fontWeight: 700,
-      color: is8 ? "#e9d5ff" : "#fef08a"
+      fontSize: "1.4rem",
+      fontWeight: 800,
+      color: is8 ? "#ede9fe" : "#fef9c3",
+      letterSpacing: "0.04em"
     }
   }, "Board #", internalId), /*#__PURE__*/React.createElement("div", {
     style: {
@@ -2289,20 +2292,21 @@ function GameTab(_ref18) {
     return /*#__PURE__*/React.createElement("div", {
       key: p.id,
       style: {
-        background: "#0f172a",
-        border: "1px solid " + (is8 ? "#7c3aed33" : "#d9770633"),
-        borderRadius: 8,
-        padding: "6px 12px",
+        background: "#0d1f3c",
+        border: "1px solid " + (is8 ? "#7c3aed55" : "#d9770655"),
+        borderRadius: 10,
+        padding: "8px 16px",
         display: "flex",
         alignItems: "center",
-        gap: 8
+        gap: 10
       }
     }, /*#__PURE__*/React.createElement(SlBadge, {
       sl: is8 ? p.sl8 : p.sl9
     }), /*#__PURE__*/React.createElement("span", {
       style: {
-        fontWeight: 600,
-        fontSize: "0.85rem"
+        fontWeight: 700,
+        fontSize: "0.95rem",
+        color: "#f1f5f9"
       }
     }, p.name));
   })), bothWr.length > 0 && /*#__PURE__*/React.createElement("div", {
@@ -3106,7 +3110,7 @@ function App() {
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     style: {
       fontFamily: "'Barlow Condensed',sans-serif",
-      fontSize: "1.55rem",
+      fontSize: "1.9rem",
       fontWeight: 800,
       color: "#f1f5f9",
       letterSpacing: "0.08em",
@@ -3114,12 +3118,12 @@ function App() {
     }
   }, "TAP OUT QUALIFIER"), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: "0.62rem",
-      color: "#3b82f6",
-      letterSpacing: "0.18em",
+      fontSize: "0.78rem",
+      color: "#60a5fa",
+      letterSpacing: "0.14em",
       textTransform: "uppercase",
-      marginTop: 2,
-      fontWeight: 600
+      marginTop: 4,
+      fontWeight: 700
     }
   }, leagueName)), /*#__PURE__*/React.createElement("div", {
     style: {
@@ -3253,13 +3257,14 @@ function App() {
       style: {
         background: "none",
         border: "none",
-        borderBottom: tab === t.id ? "2px solid #3b82f6" : "2px solid transparent",
-        color: tab === t.id ? "#60a5fa" : "#475569",
-        padding: "10px 16px",
-        fontWeight: 600,
-        fontSize: "0.82rem",
+        borderBottom: tab === t.id ? "3px solid #3b82f6" : "3px solid transparent",
+        color: tab === t.id ? "#93c5fd" : "#64748b",
+        padding: "12px 20px",
+        fontWeight: 700,
+        fontSize: "0.95rem",
         cursor: "pointer",
-        whiteSpace: "nowrap"
+        whiteSpace: "nowrap",
+        transition: "color 0.15s"
       }
     }, t.label);
   })), notification && /*#__PURE__*/React.createElement("div", {
@@ -3393,7 +3398,7 @@ function App() {
     style: _objectSpread({}, ABT("#475569"))
   }, "Cancel"))), /*#__PURE__*/React.createElement("div", {
     style: {
-      padding: "22px 24px"
+      padding: "28px 32px"
     }
   }, tab === "dashboard" && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -3450,16 +3455,17 @@ function App() {
       } : undefined,
       style: {
         background: expandedWr === s.click ? "#0f2040" : "#0a1628",
-        border: "1px solid " + (s.click ? expandedWr === s.click ? s.color : s.color + "44" : s.color + "22"),
-        borderRadius: 10,
-        padding: "10px 18px",
-        minWidth: 110,
+        border: "1px solid " + (s.click ? expandedWr === s.click ? s.color : s.color + "55" : s.color + "33"),
+        borderRadius: 12,
+        padding: "14px 22px",
+        minWidth: 130,
         cursor: s.click ? "pointer" : "default",
-        transition: "all 0.15s"
+        transition: "all 0.15s",
+        boxShadow: "0 2px 8px #00000044"
       }
     }, /*#__PURE__*/React.createElement("div", {
       style: {
-        fontSize: "1.7rem",
+        fontSize: "2.2rem",
         fontWeight: 800,
         color: s.color,
         fontFamily: "'Barlow Condensed',sans-serif",
@@ -3467,14 +3473,14 @@ function App() {
       }
     }, s.value), /*#__PURE__*/React.createElement("div", {
       style: {
-        fontSize: "0.65rem",
-        color: "#475569",
+        fontSize: "0.78rem",
+        color: "#94a3b8",
         fontWeight: 600,
         textTransform: "uppercase",
-        letterSpacing: "0.1em",
-        marginTop: 3
+        letterSpacing: "0.08em",
+        marginTop: 5
       }
-    }, s.label, s.click ? " v" : ""));
+    }, s.label, s.click ? " ▾" : ""));
   })), expandedWr && /*#__PURE__*/React.createElement("div", {
     style: {
       background: "#0a1628",
@@ -3653,9 +3659,9 @@ function App() {
       sl: p.qualifiedGame === "8-Ball" ? p.sl8 : p.sl9
     }), /*#__PURE__*/React.createElement("span", {
       style: {
-        fontWeight: 700,
+        fontWeight: 800,
         color: "#4ade80",
-        fontSize: "0.9rem"
+        fontSize: "1.05rem"
       }
     }, p.name));
   }))), !eventStarted && players.length === 0 && /*#__PURE__*/React.createElement("div", {
@@ -3788,15 +3794,16 @@ function App() {
     return /*#__PURE__*/React.createElement("div", {
       key: p.id,
       style: {
-        background: tapped ? "#150505" : "#0a1628",
-        border: "1px solid " + (tapped ? "#f8717133" : "#1e293b"),
-        borderRadius: 10,
-        padding: "10px 14px",
+        background: tapped ? "#150505" : "#0d1f3c",
+        border: "1px solid " + (tapped ? "#f8717155" : "#1e3a5f"),
+        borderRadius: 12,
+        padding: "14px 18px",
         display: "flex",
         alignItems: "center",
-        gap: 10,
+        gap: 12,
         flexWrap: "wrap",
-        opacity: tapped ? 0.7 : 1
+        opacity: tapped ? 0.7 : 1,
+        boxShadow: "0 2px 8px #00000033"
       }
     }, /*#__PURE__*/React.createElement(GameChip, {
       type: p.gameType
@@ -3808,39 +3815,40 @@ function App() {
       game: "9B"
     }), /*#__PURE__*/React.createElement("span", {
       style: {
-        fontWeight: 600,
-        fontSize: "0.9rem",
-        flex: 1
+        fontWeight: 700,
+        fontSize: "1rem",
+        flex: 1,
+        color: "#f1f5f9"
       }
     }, p.name), p.apaNumber && /*#__PURE__*/React.createElement("span", {
       style: {
-        fontSize: "0.72rem",
-        color: "#64748b",
+        fontSize: "0.82rem",
+        color: "#94a3b8",
         fontWeight: 600,
         background: "#0f172a",
-        border: "1px solid #1e293b",
+        border: "1px solid #334155",
         borderRadius: 5,
-        padding: "1px 7px"
+        padding: "3px 10px"
       }
     }, "#", p.apaNumber), p.paid ? /*#__PURE__*/React.createElement("span", {
       style: {
-        fontSize: "0.72rem",
+        fontSize: "0.82rem",
         color: "#4ade80",
-        fontWeight: 700,
+        fontWeight: 800,
         background: "#052e16",
-        border: "1px solid #16a34a55",
-        borderRadius: 5,
-        padding: "1px 7px"
+        border: "1px solid #16a34a77",
+        borderRadius: 6,
+        padding: "3px 10px"
       }
     }, "PAID" + (p.amountPaid ? " $" + p.amountPaid : "")) : /*#__PURE__*/React.createElement("span", {
       style: {
-        fontSize: "0.72rem",
+        fontSize: "0.82rem",
         color: "#f87171",
-        fontWeight: 700,
+        fontWeight: 800,
         background: "#1a0505",
-        border: "1px solid #dc262655",
-        borderRadius: 5,
-        padding: "1px 7px"
+        border: "1px solid #dc262677",
+        borderRadius: 6,
+        padding: "3px 10px"
       }
     }, "UNPAID"), /*#__PURE__*/React.createElement("div", {
       style: {
@@ -3856,10 +3864,10 @@ function App() {
           border: "1px solid " + s.border,
           color: s.color,
           borderRadius: 6,
-          padding: "2px 8px",
-          fontSize: "0.65rem",
+          padding: "3px 10px",
+          fontSize: "0.78rem",
           fontWeight: 800,
-          letterSpacing: "0.1em"
+          letterSpacing: "0.06em"
         }
       }, s.label);
     })), !tapped && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("button", {
