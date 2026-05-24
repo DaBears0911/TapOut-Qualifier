@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700;800&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: #040b14; color: #e2e8f0; font-family: 'DM Sans', sans-serif; min-height: 100vh; font-size: 16px; line-height: 1.5; }
+    body { font-size: 16px; line-height: 1.5; }
     button { font-family: 'DM Sans', sans-serif; }
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: #060f1e; }
@@ -2298,7 +2298,8 @@ function GameTab(_ref18) {
         padding: "8px 16px",
         display: "flex",
         alignItems: "center",
-        gap: 10
+        gap: 10,
+        flexWrap: "wrap"
       }
     }, /*#__PURE__*/React.createElement(SlBadge, {
       sl: is8 ? p.sl8 : p.sl9
@@ -2308,7 +2309,20 @@ function GameTab(_ref18) {
         fontSize: "0.95rem",
         color: "#f1f5f9"
       }
-    }, p.name));
+    }, p.name), p.qualifiedGames && p.qualifiedGames.map(function (g) {
+      return /*#__PURE__*/React.createElement("span", {
+        key: g,
+        style: {
+          fontSize: "0.72rem",
+          fontWeight: 800,
+          color: "#4ade80",
+          background: "#052e16",
+          border: "1px solid #16a34a77",
+          borderRadius: 5,
+          padding: "1px 7px"
+        }
+      }, "✓ " + g + " Qualified");
+    }));
   })), bothWr.length > 0 && /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: 8,
@@ -2390,50 +2404,58 @@ function App() {
     _useState36 = _slicedToArray(_useState35, 2),
     leagueName = _useState36[0],
     setLeagueName = _useState36[1];
-  var _useState37 = (0, React.useState)("dashboard"),
+  var _useState37 = (0, React.useState)(true),
     _useState38 = _slicedToArray(_useState37, 2),
-    tab = _useState38[0],
-    setTab = _useState38[1];
-  var _useState39 = (0, React.useState)(null),
+    darkMode = _useState38[0],
+    setDarkMode = _useState38[1];
+  var _useState39 = (0, React.useState)(false),
     _useState40 = _slicedToArray(_useState39, 2),
-    modal = _useState40[0],
-    setModal = _useState40[1];
-  var _useState41 = (0, React.useState)(null),
+    bothContinue = _useState40[0],
+    setBothContinue = _useState40[1];
+  var _useState41 = (0, React.useState)("dashboard"),
     _useState42 = _slicedToArray(_useState41, 2),
-    editTarget = _useState42[0],
-    setEditTarget = _useState42[1];
+    tab = _useState42[0],
+    setTab = _useState42[1];
   var _useState43 = (0, React.useState)(null),
     _useState44 = _slicedToArray(_useState43, 2),
-    confirmAction = _useState44[0],
-    setConfirmAction = _useState44[1];
+    modal = _useState44[0],
+    setModal = _useState44[1];
   var _useState45 = (0, React.useState)(null),
     _useState46 = _slicedToArray(_useState45, 2),
-    notification = _useState46[0],
-    setNotification = _useState46[1];
-  var _useState47 = (0, React.useState)(false),
+    editTarget = _useState46[0],
+    setEditTarget = _useState46[1];
+  var _useState47 = (0, React.useState)(null),
     _useState48 = _slicedToArray(_useState47, 2),
-    showPrint = _useState48[0],
-    setShowPrint = _useState48[1];
+    confirmAction = _useState48[0],
+    setConfirmAction = _useState48[1];
   var _useState49 = (0, React.useState)(null),
     _useState50 = _slicedToArray(_useState49, 2),
-    manualBuild = _useState50[0],
-    setManualBuild = _useState50[1];
-  var _useState51 = (0, React.useState)(null),
+    notification = _useState50[0],
+    setNotification = _useState50[1];
+  var _useState51 = (0, React.useState)(false),
     _useState52 = _slicedToArray(_useState51, 2),
-    slWarning = _useState52[0],
-    setSlWarning = _useState52[1];
+    showPrint = _useState52[0],
+    setShowPrint = _useState52[1];
   var _useState53 = (0, React.useState)(null),
     _useState54 = _slicedToArray(_useState53, 2),
-    expandedWr = _useState54[0],
-    setExpandedWr = _useState54[1];
-  var _useState55 = (0, React.useState)(false),
+    manualBuild = _useState54[0],
+    setManualBuild = _useState54[1];
+  var _useState55 = (0, React.useState)(null),
     _useState56 = _slicedToArray(_useState55, 2),
-    restored = _useState56[0],
-    setRestored = _useState56[1];
-  var _useState57 = (0, React.useState)(0),
+    slWarning = _useState56[0],
+    setSlWarning = _useState56[1];
+  var _useState57 = (0, React.useState)(null),
     _useState58 = _slicedToArray(_useState57, 2),
-    tick = _useState58[0],
-    setTick = _useState58[1];
+    expandedWr = _useState58[0],
+    setExpandedWr = _useState58[1];
+  var _useState59 = (0, React.useState)(false),
+    _useState60 = _slicedToArray(_useState59, 2),
+    restored = _useState60[0],
+    setRestored = _useState60[1];
+  var _useState61 = (0, React.useState)(0),
+    _useState62 = _slicedToArray(_useState61, 2),
+    tick = _useState62[0],
+    setTick = _useState62[1];
 
   // Restore from storage on mount
   (0, React.useEffect)(function () {
@@ -2471,9 +2493,11 @@ function App() {
       tappedOut: tappedOut,
       eventStarted: eventStarted,
       tables: tables,
-      leagueName: leagueName
+      leagueName: leagueName,
+      darkMode: darkMode,
+      bothContinue: bothContinue
     });
-  }, [players, waitingRooms, boards, qualified, tappedOut, eventStarted, tables, leagueName, restored]);
+  }, [players, waitingRooms, boards, qualified, tappedOut, eventStarted, tables, leagueName, darkMode, bothContinue, restored]);
 
   // 1s tick for timers
   (0, React.useEffect)(function () {
@@ -2884,12 +2908,35 @@ function App() {
       notify(loser.name + " moved to waiting room.", "info");
     }
     if (isFinal) {
-      setQualified(function (q) {
-        return [].concat(_toConsumableArray(q), [_objectSpread(_objectSpread({}, winner), {}, {
-          qualifiedGame: boardGame
-        })]);
+      var qualRecord = _objectSpread(_objectSpread({}, winner), {}, {
+        qualifiedGame: boardGame
       });
-      notify(winner.name + " qualifies for " + boardGame + " Regionals! " + loser.name + " to waiting room.", "success");
+      setQualified(function (q) {
+        return [].concat(_toConsumableArray(q), [qualRecord]);
+      });
+
+      // Both player continuation logic
+      if (bothContinue && winner.gameType === "Both") {
+        var otherGame = boardGame === "8-Ball" ? "9-Ball" : "8-Ball";
+        // Check if they already qualified the other game too
+        var alreadyQualOther = qualified.some(function (q) {
+          return q.id === winner.id && q.qualifiedGame === otherGame;
+        });
+        if (!alreadyQualOther) {
+          // Move to the other game's waiting room with a qualifiedGames flag
+          var flaggedPlayer = _objectSpread(_objectSpread({}, winner), {}, {
+            qualifiedGames: [].concat(_toConsumableArray(winner.qualifiedGames || []), [boardGame])
+          });
+          setWaitingRooms(function (wr) {
+            return _objectSpread(_objectSpread({}, wr), {}, _defineProperty({}, otherGame, [].concat(_toConsumableArray(wr[otherGame]), [flaggedPlayer])));
+          });
+          notify(winner.name + " qualifies for " + boardGame + " Regionals and moves to " + otherGame + " waiting room!", "success");
+        } else {
+          notify(winner.name + " qualifies for " + boardGame + " Regionals — both games complete!", "success");
+        }
+      } else {
+        notify(winner.name + " qualifies for " + boardGame + " Regionals!", "success");
+      }
     }
   }
   function handleEditMatch(boardId, matchIdx) {
@@ -3067,6 +3114,64 @@ function App() {
       };
     });
   });
+
+  // ── Theme ────────────────────────────────────────────────────────────────
+  var T = darkMode ? {
+    // Dark theme
+    appBg: "#040b14",
+    headerBg: "linear-gradient(90deg,#050d1a,#0d1f3c)",
+    headerBorder: "#1e3a5f",
+    tabBg: "#050d1a",
+    tabBorder: "#0d1f3c",
+    tabActive: "#93c5fd",
+    tabInactive: "#64748b",
+    cardBg: "#0d1f3c",
+    cardBorder: "#1e3a5f",
+    text: "#f1f5f9",
+    textSub: "#94a3b8",
+    textMuted: "#64748b",
+    inputBg: "#040b14",
+    inputBorder: "#1e293b",
+    statBg: "#0a1628",
+    sectionLabelColor: "#94a3b8",
+    notifSuccess: "#052e16",
+    notifError: "#450a0a",
+    notifInfo: "#0c1a2e",
+    wrPill8: "#0d1f3c",
+    wrPill9: "#0d1f3c",
+    playerCard: "#0d1f3c",
+    playerCardBorder: "#1e3a5f"
+  } : {
+    // Light theme
+    appBg: "#f1f5f9",
+    headerBg: "linear-gradient(90deg,#1e3a5f,#1d4ed8)",
+    headerBorder: "#1d4ed8",
+    tabBg: "#e2e8f0",
+    tabBorder: "#cbd5e1",
+    tabActive: "#1d4ed8",
+    tabInactive: "#64748b",
+    cardBg: "#ffffff",
+    cardBorder: "#cbd5e1",
+    text: "#0f172a",
+    textSub: "#374151",
+    textMuted: "#6b7280",
+    inputBg: "#ffffff",
+    inputBorder: "#cbd5e1",
+    statBg: "#ffffff",
+    sectionLabelColor: "#374151",
+    notifSuccess: "#dcfce7",
+    notifError: "#fee2e2",
+    notifInfo: "#dbeafe",
+    wrPill8: "#ede9fe",
+    wrPill9: "#fef9c3",
+    playerCard: "#ffffff",
+    playerCardBorder: "#cbd5e1"
+  };
+  var INP_T = _objectSpread(_objectSpread({}, INP), {}, {
+    background: T.inputBg,
+    border: "1px solid " + T.inputBorder,
+    color: T.text
+  });
   var TABS = [{
     id: "dashboard",
     label: "Dashboard"
@@ -3091,9 +3196,10 @@ function App() {
   return /*#__PURE__*/React.createElement("div", {
     style: {
       minHeight: "100vh",
-      background: "#040b14",
+      background: T.appBg,
       fontFamily: "'DM Sans',sans-serif",
-      color: "#e2e8f0"
+      color: T.text,
+      transition: "background 0.3s, color 0.3s"
     }
   }, /*#__PURE__*/React.createElement("style", null, "\n        @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700;800&family=DM+Sans:wght@400;500;600;700&display=swap');\n        *{box-sizing:border-box;margin:0;padding:0}\n        button{font-family:'DM Sans',sans-serif}\n        ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:#040b14}::-webkit-scrollbar-thumb{background:#1e293b;border-radius:3px}\n        @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}\n      "), showPrint && /*#__PURE__*/React.createElement(PrintView, {
     players: players,
@@ -3106,8 +3212,8 @@ function App() {
     }
   }), /*#__PURE__*/React.createElement("div", {
     style: {
-      background: "linear-gradient(90deg,#050d1a,#0d1f3c)",
-      borderBottom: "1px solid #1e3a5f",
+      background: T.headerBg,
+      borderBottom: "1px solid " + T.headerBorder,
       padding: "12px 24px",
       display: "flex",
       alignItems: "center",
@@ -3253,8 +3359,8 @@ function App() {
       display: "flex",
       gap: 2,
       padding: "0 24px",
-      background: "#050d1a",
-      borderBottom: "1px solid #0d1f3c",
+      background: T.tabBg,
+      borderBottom: "1px solid " + T.tabBorder,
       overflowX: "auto"
     }
   }, TABS.map(function (t) {
@@ -3267,7 +3373,7 @@ function App() {
         background: "none",
         border: "none",
         borderBottom: tab === t.id ? "3px solid #3b82f6" : "3px solid transparent",
-        color: tab === t.id ? "#93c5fd" : "#64748b",
+        color: tab === t.id ? T.tabActive : T.tabInactive,
         padding: "12px 20px",
         fontWeight: 700,
         fontSize: "0.95rem",
@@ -3463,14 +3569,14 @@ function App() {
         return setExpandedWr(expandedWr === s.click ? null : s.click);
       } : undefined,
       style: {
-        background: expandedWr === s.click ? "#0f2040" : "#0a1628",
+        background: expandedWr === s.click ? darkMode ? "#0f2040" : "#dbeafe" : T.statBg,
         border: "1px solid " + (s.click ? expandedWr === s.click ? s.color : s.color + "55" : s.color + "33"),
         borderRadius: 12,
         padding: "14px 22px",
         minWidth: 130,
         cursor: s.click ? "pointer" : "default",
         transition: "all 0.15s",
-        boxShadow: "0 2px 8px #00000044"
+        boxShadow: "0 2px 8px #00000022"
       }
     }, /*#__PURE__*/React.createElement("div", {
       style: {
@@ -3483,7 +3589,7 @@ function App() {
     }, s.value), /*#__PURE__*/React.createElement("div", {
       style: {
         fontSize: "0.78rem",
-        color: "#94a3b8",
+        color: T.textMuted,
         fontWeight: 600,
         textTransform: "uppercase",
         letterSpacing: "0.08em",
@@ -3547,7 +3653,8 @@ function App() {
         padding: "6px 14px",
         display: "flex",
         alignItems: "center",
-        gap: 8
+        gap: 8,
+        flexWrap: "wrap"
       }
     }, expandedWr === "Both" ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(SlBadge, {
       sl: p.sl8,
@@ -3563,7 +3670,20 @@ function App() {
         fontSize: "0.88rem",
         color: "#e2e8f0"
       }
-    }, p.name));
+    }, p.name), p.qualifiedGames && p.qualifiedGames.map(function (g) {
+      return /*#__PURE__*/React.createElement("span", {
+        key: g,
+        style: {
+          fontSize: "0.72rem",
+          fontWeight: 800,
+          color: "#4ade80",
+          background: "#052e16",
+          border: "1px solid #16a34a77",
+          borderRadius: 5,
+          padding: "1px 7px"
+        }
+      }, "✓ " + g + " Qualified");
+    }));
   }))), eventStarted && /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
@@ -3803,8 +3923,8 @@ function App() {
     return /*#__PURE__*/React.createElement("div", {
       key: p.id,
       style: {
-        background: tapped ? "#150505" : "#0d1f3c",
-        border: "1px solid " + (tapped ? "#f8717155" : "#1e3a5f"),
+        background: tapped ? darkMode ? "#150505" : "#fee2e2" : T.playerCard,
+        border: "1px solid " + (tapped ? "#f8717155" : T.playerCardBorder),
         borderRadius: 12,
         padding: "14px 18px",
         display: "flex",
@@ -3812,7 +3932,7 @@ function App() {
         gap: 12,
         flexWrap: "wrap",
         opacity: tapped ? 0.7 : 1,
-        boxShadow: "0 2px 8px #00000033"
+        boxShadow: "0 2px 8px #00000022"
       }
     }, /*#__PURE__*/React.createElement(GameChip, {
       type: p.gameType
@@ -3827,7 +3947,7 @@ function App() {
         fontWeight: 700,
         fontSize: "1rem",
         flex: 1,
-        color: "#f1f5f9"
+        color: T.text
       }
     }, p.name), p.apaNumber && /*#__PURE__*/React.createElement("span", {
       style: {
@@ -3929,13 +4049,13 @@ function App() {
       return setLeagueName(e.target.value);
     },
     placeholder: "e.g. Central Oklahoma APA",
-    style: INP
+    style: INP_T
   })), /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: -8,
       marginBottom: 16,
       fontSize: "0.75rem",
-      color: "#475569"
+      color: T.textMuted
     }
   }, "Appears in header and on printed results."), /*#__PURE__*/React.createElement(Fld, {
     label: "Available Tables at Venue"
@@ -3947,18 +4067,142 @@ function App() {
     onChange: function onChange(e) {
       return setTables(parseInt(e.target.value) || 1);
     },
-    style: INP
+    style: INP_T
   })), /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: -8,
       marginBottom: 24,
       fontSize: "0.75rem",
-      color: "#475569"
+      color: T.textMuted
     }
   }, "Controls how many boards run simultaneously."), /*#__PURE__*/React.createElement("div", {
     style: {
-      background: "#0a1628",
-      border: "1px solid #1e293b",
+      background: T.cardBg,
+      border: "1px solid " + T.cardBorder,
+      borderRadius: 10,
+      padding: "14px 18px",
+      marginBottom: 16
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center"
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: "0.95rem",
+      fontWeight: 700,
+      color: T.text,
+      marginBottom: 3
+    }
+  }, darkMode ? "🌙 Dark Mode" : "☀️ Light Mode"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: "0.78rem",
+      color: T.textMuted
+    }
+  }, "Switch between dark and light display")), /*#__PURE__*/React.createElement("div", {
+    onClick: function onClick() {
+      return setDarkMode(function (d) {
+        return !d;
+      });
+    },
+    style: {
+      width: 52,
+      height: 28,
+      borderRadius: 14,
+      background: darkMode ? "#1d4ed8" : "#cbd5e1",
+      position: "relative",
+      cursor: "pointer",
+      transition: "background 0.25s",
+      flexShrink: 0
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 22,
+      height: 22,
+      borderRadius: "50%",
+      background: "#fff",
+      position: "absolute",
+      top: 3,
+      left: darkMode ? 27 : 3,
+      transition: "left 0.25s",
+      boxShadow: "0 1px 4px #0006"
+    }
+  })))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: T.cardBg,
+      border: "1px solid " + T.cardBorder,
+      borderRadius: 10,
+      padding: "14px 18px",
+      marginBottom: 16
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1,
+      marginRight: 16
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: "0.95rem",
+      fontWeight: 700,
+      color: T.text,
+      marginBottom: 3
+    }
+  }, "Both Player Continuation"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: "0.78rem",
+      color: T.textMuted,
+      lineHeight: 1.5
+    }
+  }, "When ON: Both players who qualify for one game automatically move to the other game's waiting room to keep competing. When OFF: they are done after qualifying.")), /*#__PURE__*/React.createElement("div", {
+    onClick: function onClick() {
+      return setBothContinue(function (b) {
+        return !b;
+      });
+    },
+    style: {
+      width: 52,
+      height: 28,
+      borderRadius: 14,
+      background: bothContinue ? "#16a34a" : darkMode ? "#1e293b" : "#cbd5e1",
+      position: "relative",
+      cursor: "pointer",
+      transition: "background 0.25s",
+      flexShrink: 0
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 22,
+      height: 22,
+      borderRadius: "50%",
+      background: "#fff",
+      position: "absolute",
+      top: 3,
+      left: bothContinue ? 27 : 3,
+      transition: "left 0.25s",
+      boxShadow: "0 1px 4px #0006"
+    }
+  }))), bothContinue && /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 10,
+      background: darkMode ? "#052e16" : "#dcfce7",
+      border: "1px solid #16a34a55",
+      borderRadius: 7,
+      padding: "6px 12px",
+      fontSize: "0.78rem",
+      color: darkMode ? "#4ade80" : "#15803d"
+    }
+  }, "ON \u2014 Both players will continue in the other format after qualifying")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: T.cardBg,
+      border: "1px solid " + T.cardBorder,
       borderRadius: 10,
       padding: "14px 16px",
       marginBottom: 16
@@ -3973,7 +4217,7 @@ function App() {
   }, "Auto-Save Active"), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: "0.78rem",
-      color: "#64748b",
+      color: T.textMuted,
       lineHeight: 1.6
     }
   }, "Your event saves automatically. If you close the tab, reopen the same URL and it will restore where you left off.")), /*#__PURE__*/React.createElement("div", {
